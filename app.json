@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "referu-employee",
-    "slug": "referu-employee",
+    "slug": "referu-employee-mz0sqzr7-adma8a2ufame",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -43,6 +43,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "97a88dbb-0a7b-4eca-ba99-3e7c1f032772"
+      }
+    },
+    "owner": "oyunmyagmar"
   }
 }
