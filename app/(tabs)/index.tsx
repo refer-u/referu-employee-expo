@@ -58,22 +58,9 @@ export default function HomeScreen() {
         </ThemedView>
       </ThemedView>
 
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText>
-          see/
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>
-        </ThemedText>
-      </ThemedView>
-
       {hrPostedJobs.map((job) => (
         <ThemedView key={job._id} style={styles.stepContainer}>
-          <Link href="/modal">
+          <Link href={{ pathname: "/modal", params: { jobId: job._id } }}>
             <Link.Trigger>
               <ThemedView
                 style={{
@@ -92,9 +79,48 @@ export default function HomeScreen() {
                 <ThemedText>{job.createdAt}</ThemedText>
               </ThemedView>
             </Link.Trigger>
+
+            <Link.Preview />
+
+            <Link.Menu>
+              <Link.MenuAction
+                title="View detail"
+                icon="eye"
+                onPress={() => console.log("view", job._id)}
+              />
+              <Link.MenuAction
+                title="Share"
+                icon="square.and.arrow.up"
+                onPress={() => console.log(console.log("share", job._id))}
+              />
+
+              <Link.Menu title="More" icon="ellipsis">
+                <Link.MenuAction
+                  title="Delete"
+                  icon="trash"
+                  destructive
+                  onPress={() => {
+                    console.log("delete", job._id);
+                  }}
+                />
+              </Link.Menu>
+            </Link.Menu>
           </Link>
         </ThemedView>
       ))}
+
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText>
+          see/
+          <ThemedText type="defaultSemiBold">
+            {Platform.select({
+              ios: "cmd + d",
+              android: "cmd + m",
+              web: "F12",
+            })}
+          </ThemedText>
+        </ThemedText>
+      </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
         <Link href="/modal">

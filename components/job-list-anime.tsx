@@ -25,12 +25,12 @@ export function JobListIconAnime() {
           width: 56,
           height: 56,
           borderRadius: 18,
-          backgroundColor: "#0052951A",
+          backgroundColor: "#0a7ea41A",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Entypo name="list" size={34} color="#005295" />
+        <Entypo name="list" size={34} color="#0a7ea4" />
       </ThemedView>
     </Animated.View>
   );

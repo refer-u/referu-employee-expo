@@ -15,6 +15,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarLabelStyle: { fontSize: 14 },
       }}
     >
       <Tabs.Screen
@@ -22,7 +23,7 @@ export default function TabLayout() {
         options={{
           title: "Нүүр",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={32} name="house.fill" color={color} />
           ),
         }}
       />
@@ -31,7 +32,7 @@ export default function TabLayout() {
         options={{
           title: "Миний",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol size={32} name="paperplane.fill" color={color} />
           ),
         }}
       />
