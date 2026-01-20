@@ -10,15 +10,20 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   header: {
-    height: 52,
-    justifyContent: "center",
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderColor: "#e5e7eb",
+    flexDirection: "row",
+
+    alignItems: "center",
+    paddingHorizontal: 16,
     backgroundColor: "#fff",
+    width: "100%",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e7eb",
   },
   title: {
-    fontSize: 18,
-    fontWeight: "600",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 20,
+    fontWeight: "700",
+    letterSpacing: -0.5,
   },
 });
