@@ -42,12 +42,7 @@ export default function HomeScreen() {
             flexDirection: "row",
             alignItems: "center",
             gap: 10,
-            marginHorizontal: -32,
-            paddingHorizontal: 32,
             paddingBottom: 32,
-
-            borderBottomWidth: 1,
-            borderBlockColor: "#E5E7E8",
           }}
         >
           <JobListIconAnime />
@@ -55,7 +50,7 @@ export default function HomeScreen() {
             <ThemedText type="title" style={{ fontSize: 26 }}>
               Ажлын зар
             </ThemedText>
-            <ThemedText style={{ color: "#71717A" }}>
+            <ThemedText style={{ color: "#687076" }}>
               {hrPostedJobs.length} Нээлттэй ажлын байр
             </ThemedText>
           </ThemedView>
@@ -81,7 +76,7 @@ export default function HomeScreen() {
                     <ThemedText> - </ThemedText>₮
                     {job.salaryMax.toLocaleString()}
                   </ThemedText>
-                  <ThemedText style={{ color: "#71717A" }}>
+                  <ThemedText style={{ color: "#687076" }}>
                     {job.jobDepartment} хэлтэс
                   </ThemedText>
                   <ThemedText style={{ fontSize: 14 }}>
@@ -136,11 +131,18 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: "#E5E7E8",
     borderRadius: 18,
     padding: 18,
     backgroundColor: "#fff",
+
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+
+    elevation: 4,
   },
 });
