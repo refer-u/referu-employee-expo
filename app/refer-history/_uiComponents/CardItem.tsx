@@ -25,12 +25,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#e5e7eb",
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   dot: {
-    width: 10,
-    height: 10,
+    width: 6,
+    height: 40,
     borderRadius: 5,
-    marginTop: 6,
   },
   content: {
     flex: 1,

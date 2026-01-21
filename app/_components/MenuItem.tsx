@@ -12,7 +12,7 @@ export default function MenuItem() {
     >
       <View style={styles.row}>
         <Text style={styles.text}>Санал болгосон түүх</Text>
-        <ChevronRight size={20} color="#6b7280" />
+        <ChevronRight size={22} color="#6b7280" />
       </View>
     </Pressable>
   );
@@ -21,10 +21,12 @@ export default function MenuItem() {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#e5e7eb",
-    padding: 20,
+    padding: 25,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
   },
   row: {
     flexDirection: "row",
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
+    fontSize: 17,
     fontWeight: "500",
   },
 });
