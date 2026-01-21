@@ -27,7 +27,7 @@ export default function ModalScreen() {
     <ScrollView
       showsVerticalScrollIndicator={false}
       style={{ backgroundColor: "#fff" }}
-      contentContainerStyle={{ paddingBottom: 28 }}
+      contentContainerStyle={{ paddingBottom: 14 }}
     >
       <ThemedView style={styles.container}>
         <ThemedView style={styles.stepContainer}>
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   btn: {
     flex: 1,
     height: 48,
-    borderRadius: 14,
+    borderRadius: 40,
     alignItems: "center",
     justifyContent: "center",
   },
