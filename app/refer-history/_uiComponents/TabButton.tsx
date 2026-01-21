@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#edf0f7ff",
+    backgroundColor: "#fff",
   },
   active: {
     backgroundColor: "#ffffff",

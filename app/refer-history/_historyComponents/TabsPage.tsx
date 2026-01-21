@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import * as NavigationBar from "expo-navigation-bar";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Badge from "../_uiComponents/Badge";
 import CardItem from "../_uiComponents/CardItem";
@@ -44,6 +45,10 @@ type TabKey = "Илгээсэн" | "Зөвшөөрсөн" | "Цуцлагдса�
 
 export default function TabsPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("Илгээсэн");
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync("#5d3912");
+    NavigationBar.setButtonStyleAsync("dark");
+  }, []);
   return (
     <View style={styles.container}>
       {/* Tabs */}
@@ -138,12 +143,12 @@ const styles = StyleSheet.create({
   },
   tabs: {
     flexDirection: "row",
-    backgroundColor: "#fff",
+    borderRadius: 10,
   },
 
   bonus: { fontSize: 14, fontWeight: "600", color: "#22c55e" },
   content: { padding: 16, gap: 12 },
   title: { fontSize: 18, fontWeight: "600", color: "#111827" },
   muted: { fontSize: 13, color: "#6b7280", marginTop: 2 },
-  badges: { flexDirection: "row", gap: 8, marginTop: 8, flexWrap: "wrap" },
+  badges: { flexDirection: "row", gap: 6, marginTop: 8, flexWrap: "wrap" },
 });

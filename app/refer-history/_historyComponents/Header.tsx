@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
+    paddingTop: 40,
   },
   backButton: {
     paddingHorizontal: 8,
@@ -31,9 +32,10 @@ const styles = StyleSheet.create({
     marginBottom: 7,
   },
   title: {
-    fontSize: 22,
-    fontWeight: "600",
+    fontSize: 20,
+    fontWeight: "700",
     color: "#111827",
     marginBottom: 10,
+    letterSpacing: -0.5,
   },
 });
