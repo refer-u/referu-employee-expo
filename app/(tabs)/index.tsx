@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { JobListIconAnime } from "@/components/job-list-anime";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
@@ -114,7 +114,7 @@ export default function HomeScreen() {
           </ThemedView>
         ))}
 
-        <ThemedView style={styles.stepContainer}>
+        {/* <ThemedView style={styles.stepContainer}>
           <ThemedText type="defaultSemiBold">
             {Platform.select({
               ios: "cmd + d",
@@ -122,7 +122,7 @@ export default function HomeScreen() {
               web: "F12",
             })}
           </ThemedText>
-        </ThemedView>
+        </ThemedView> */}
       </ThemedView>
     </ParallaxScrollView>
   );
