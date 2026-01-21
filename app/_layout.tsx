@@ -23,11 +23,30 @@ export default function RootLayout() {
         <Stack.Screen
           name="modal"
           options={{
+            headerShown: true,
             presentation: "modal",
-            title: "",
+            title: "Дэлгэрэнгүй Мэдээлэл",
+            headerTitleStyle: {
+              fontSize: 18,
+              fontWeight: "700",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="refer-person/[id]"
+          options={{
+            headerShown: true,
+            presentation: "modal",
+            title: "Санал Болгох Маягт",
+            headerTitleAlign: "left",
+            headerTitleStyle: {
+              fontSize: 18,
+              fontWeight: "700",
+            },
           }}
         />
       </Stack>
+
       <StatusBar style="auto" />
     </ThemeProvider>
   );

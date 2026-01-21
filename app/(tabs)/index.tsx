@@ -35,123 +35,98 @@ export default function HomeScreen() {
         </ThemedText>
       }
     >
-      <ThemedView
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
-          marginHorizontal: -32,
-          paddingHorizontal: 32,
-          paddingBottom: 32,
+      <ThemedView style={{ backgroundColor: "#f0f6ff" }}>
+        <ThemedView
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+            marginHorizontal: -32,
+            paddingHorizontal: 32,
+            paddingBottom: 32,
 
-          borderBottomWidth: 1,
-        }}
-      >
-        <JobListIconAnime />
-        <ThemedView>
-          <ThemedText type="title" style={{ fontSize: 26 }}>
-            Ажлын зар
-          </ThemedText>
-          <ThemedText style={{ color: "#71717A" }}>
-            {hrPostedJobs.length} Нээлттэй ажлын байр
-          </ThemedText>
+            borderBottomWidth: 1,
+            borderBlockColor: "#E5E7E8",
+          }}
+        >
+          <JobListIconAnime />
+          <ThemedView>
+            <ThemedText type="title" style={{ fontSize: 26 }}>
+              Ажлын зар
+            </ThemedText>
+            <ThemedText style={{ color: "#71717A" }}>
+              {hrPostedJobs.length} Нээлттэй ажлын байр
+            </ThemedText>
+          </ThemedView>
         </ThemedView>
-      </ThemedView>
 
-      {hrPostedJobs.map((job) => (
-        <ThemedView key={job._id} style={styles.stepContainer}>
-          <Link href={{ pathname: "/modal", params: { jobId: job._id } }}>
-            <Link.Trigger>
-              <ThemedView
-                style={{
-                  flexDirection: "column",
-                  gap: 8,
-                }}
-              >
-                <ThemedText type="subtitle">{job.jobTitle}</ThemedText>
-                <ThemedText style={{ color: "#71717A" }}>
-                  {job.jobDepartment} хэлтэс
-                </ThemedText>
-                <ThemedText type="defaultSemiBold" style={{ color: "#005295" }}>
-                  ₮{job.salaryMin.toLocaleString()}
-                  <ThemedText> - </ThemedText>₮{job.salaryMax.toLocaleString()}
-                </ThemedText>
-                <ThemedText>{job.createdAt}</ThemedText>
-              </ThemedView>
-            </Link.Trigger>
-
-            <Link.Preview />
-
-            <Link.Menu>
-              <Link.MenuAction
-                title="View detail"
-                icon="eye"
-                onPress={() => console.log("view", job._id)}
-              />
-              <Link.MenuAction
-                title="Share"
-                icon="square.and.arrow.up"
-                onPress={() => console.log(console.log("share", job._id))}
-              />
-
-              <Link.Menu title="More" icon="ellipsis">
-                <Link.MenuAction
-                  title="Delete"
-                  icon="trash"
-                  destructive
-                  onPress={() => {
-                    console.log("delete", job._id);
+        {hrPostedJobs.map((job) => (
+          <ThemedView key={job._id} style={styles.stepContainer}>
+            <Link href={{ pathname: "/modal", params: { jobId: job._id } }}>
+              <Link.Trigger>
+                <ThemedView
+                  style={{
+                    flexDirection: "column",
+                    gap: 8,
+                    backgroundColor: "#fff",
                   }}
+                >
+                  <ThemedText type="subtitle">{job.jobTitle}</ThemedText>
+                  <ThemedText
+                    type="subtitle"
+                    style={{ color: "#005295", fontSize: 18 }}
+                  >
+                    ₮{job.salaryMin.toLocaleString()}
+                    <ThemedText> - </ThemedText>₮
+                    {job.salaryMax.toLocaleString()}
+                  </ThemedText>
+                  <ThemedText style={{ color: "#71717A" }}>
+                    {job.jobDepartment} хэлтэс
+                  </ThemedText>
+                  <ThemedText>{job.createdAt}</ThemedText>
+                </ThemedView>
+              </Link.Trigger>
+
+              <Link.Preview />
+
+              <Link.Menu>
+                <Link.MenuAction
+                  title="View detail"
+                  icon="eye"
+                  onPress={() => console.log("view", job._id)}
                 />
+                <Link.MenuAction
+                  title="Share"
+                  icon="square.and.arrow.up"
+                  onPress={() => console.log(console.log("share", job._id))}
+                />
+
+                <Link.Menu title="More" icon="ellipsis">
+                  <Link.MenuAction
+                    title="Delete"
+                    icon="trash"
+                    destructive
+                    onPress={() => {
+                      console.log("delete", job._id);
+                    }}
+                  />
+                </Link.Menu>
               </Link.Menu>
-            </Link.Menu>
-          </Link>
-        </ThemedView>
-      ))}
+            </Link>
+          </ThemedView>
+        ))}
 
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText>
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
+        <ThemedView style={styles.stepContainer}>
+          <ThemedText>
+            <ThemedText type="defaultSemiBold">
+              {Platform.select({
+                ios: "cmd + d",
+                android: "cmd + m",
+                web: "F12",
+              })}
+            </ThemedText>
           </ThemedText>
-        </ThemedText>
-      </ThemedView>
-
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction
-              title="Action"
-              icon="cube"
-              onPress={() => alert("Action pressed")}
-            />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert("Share pressed")}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert("Delete pressed")}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
-
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
+        </ThemedView>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -163,7 +138,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderWidth: 1,
     borderColor: "#E5E7E8",
-    borderRadius: 14,
+    borderRadius: 18,
     padding: 18,
+    backgroundColor: "#fff",
   },
 });
