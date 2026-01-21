@@ -3,7 +3,10 @@ import { Button, ScrollView, StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { hrPostedJobs } from "./mock-data";
+import { formatDate } from "@/libs/utils/format-date";
+import { hrPostedJobs } from "@/libs/utils/get-datas";
+import { getJobLevelMN } from "@/libs/utils/get-job-level-mn";
+import { getJobTypeMN } from "@/libs/utils/get-job-type-mn";
 
 export default function ModalScreen() {
   const { jobId } = useLocalSearchParams<{ jobId: string }>();
@@ -33,10 +36,14 @@ export default function ModalScreen() {
           </ThemedText>
           <ThemedView style={styles.subContainer}>
             <ThemedText>Хэлтэс: {selectedJob?.jobDepartment} хэлтэс</ThemedText>
-            <ThemedText>Төрөл: {selectedJob?.jobType}</ThemedText>
-            <ThemedText>Түвшин: {selectedJob?.jobLevel}</ThemedText>
+            <ThemedText>Төрөл: {getJobTypeMN(selectedJob?.jobType)}</ThemedText>
+            <ThemedText>
+              Түвшин: {getJobLevelMN(selectedJob?.jobLevel)}
+            </ThemedText>
           </ThemedView>
-          <ThemedText>Нийтэлсэн: {selectedJob?.createdAt}</ThemedText>
+          <ThemedText style={{ fontSize: 14 }}>
+            Нийтэлсэн: {formatDate(selectedJob?.createdAt)}
+          </ThemedText>
         </ThemedView>
 
         <ThemedView style={styles.stepContainer}>

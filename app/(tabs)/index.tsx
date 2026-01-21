@@ -4,8 +4,9 @@ import { JobListIconAnime } from "@/components/job-list-anime";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { formatDate } from "@/libs/utils/format-date";
+import { hrPostedJobs } from "@/libs/utils/get-datas";
 import { Link } from "expo-router";
-import { hrPostedJobs } from "../mock-data";
 
 export default function HomeScreen() {
   return (
@@ -83,7 +84,9 @@ export default function HomeScreen() {
                   <ThemedText style={{ color: "#71717A" }}>
                     {job.jobDepartment} хэлтэс
                   </ThemedText>
-                  <ThemedText>{job.createdAt}</ThemedText>
+                  <ThemedText style={{ fontSize: 14 }}>
+                    {formatDate(job.createdAt)}
+                  </ThemedText>
                 </ThemedView>
               </Link.Trigger>
 
@@ -117,14 +120,12 @@ export default function HomeScreen() {
         ))}
 
         <ThemedView style={styles.stepContainer}>
-          <ThemedText>
-            <ThemedText type="defaultSemiBold">
-              {Platform.select({
-                ios: "cmd + d",
-                android: "cmd + m",
-                web: "F12",
-              })}
-            </ThemedText>
+          <ThemedText type="defaultSemiBold">
+            {Platform.select({
+              ios: "cmd + d",
+              android: "cmd + m",
+              web: "F12",
+            })}
           </ThemedText>
         </ThemedView>
       </ThemedView>

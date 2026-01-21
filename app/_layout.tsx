@@ -29,6 +29,7 @@ export default function RootLayout() {
             headerTitleStyle: {
               fontSize: 18,
               fontWeight: "700",
+              color: "#005295",
             },
           }}
         />
@@ -42,6 +43,7 @@ export default function RootLayout() {
             headerTitleStyle: {
               fontSize: 18,
               fontWeight: "700",
+              color: "#005295",
             },
           }}
         />
