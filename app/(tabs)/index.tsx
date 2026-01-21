@@ -1,43 +1,126 @@
-import { Image } from "expo-image";
 import { Platform, StyleSheet } from "react-native";
 
-import { HelloWave } from "@/components/hello-wave";
+import { JobListIconAnime } from "@/components/job-list-anime";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Link } from "expo-router";
+import { hrPostedJobs } from "../mock-data";
 
 export default function HomeScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+      headerBackgroundColor={{ light: "#005295", dark: "#1D3D47" }}
       headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
+        <ThemedText
+          type="title"
+          style={{
+            color: "#fff",
+            bottom: 0,
+            height: 70,
+            position: "absolute",
+            paddingHorizontal: 30,
+            paddingVertical: 20,
+          }}
+        >
+          Refer
+          <ThemedText
+            type="title"
+            style={{
+              color: "#94A3B8",
+            }}
+          >
+            U
+          </ThemedText>
+        </ThemedText>
       }
     >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Employejojje!</ThemedText>
-        <HelloWave />
+      <ThemedView
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
+          marginHorizontal: -32,
+          paddingHorizontal: 32,
+          paddingBottom: 32,
+
+          borderBottomWidth: 1,
+        }}
+      >
+        <JobListIconAnime />
+        <ThemedView>
+          <ThemedText type="title" style={{ fontSize: 26 }}>
+            Ажлын зар
+          </ThemedText>
+          <ThemedText style={{ color: "#71717A" }}>
+            {hrPostedJobs.length} Нээлттэй ажлын байр
+          </ThemedText>
+        </ThemedView>
       </ThemedView>
+
+      {hrPostedJobs.map((job) => (
+        <ThemedView key={job._id} style={styles.stepContainer}>
+          <Link href={{ pathname: "/modal", params: { jobId: job._id } }}>
+            <Link.Trigger>
+              <ThemedView
+                style={{
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+              >
+                <ThemedText type="subtitle">{job.jobTitle}</ThemedText>
+                <ThemedText style={{ color: "#71717A" }}>
+                  {job.jobDepartment} хэлтэс
+                </ThemedText>
+                <ThemedText type="defaultSemiBold" style={{ color: "#005295" }}>
+                  ₮{job.salaryMin.toLocaleString()}
+                  <ThemedText> - </ThemedText>₮{job.salaryMax.toLocaleString()}
+                </ThemedText>
+                <ThemedText>{job.createdAt}</ThemedText>
+              </ThemedView>
+            </Link.Trigger>
+
+            <Link.Preview />
+
+            <Link.Menu>
+              <Link.MenuAction
+                title="View detail"
+                icon="eye"
+                onPress={() => console.log("view", job._id)}
+              />
+              <Link.MenuAction
+                title="Share"
+                icon="square.and.arrow.up"
+                onPress={() => console.log(console.log("share", job._id))}
+              />
+
+              <Link.Menu title="More" icon="ellipsis">
+                <Link.MenuAction
+                  title="Delete"
+                  icon="trash"
+                  destructive
+                  onPress={() => {
+                    console.log("delete", job._id);
+                  }}
+                />
+              </Link.Menu>
+            </Link.Menu>
+          </Link>
+        </ThemedView>
+      ))}
+
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
           <ThemedText type="defaultSemiBold">
             {Platform.select({
               ios: "cmd + d",
               android: "cmd + m",
               web: "F12",
             })}
-          </ThemedText>{" "}
-          to open developer tools.
+          </ThemedText>
         </ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
         <Link href="/modal">
           <Link.Trigger>
@@ -70,38 +153,17 @@ export default function HomeScreen() {
           {`Tap the Explore tab to learn more about what's included in this starter app.`}
         </ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">
-            npm run reset-project
-          </ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
   stepContainer: {
     gap: 8,
     marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+    borderWidth: 1,
+    borderColor: "#E5E7E8",
+    borderRadius: 14,
+    padding: 18,
   },
 });
