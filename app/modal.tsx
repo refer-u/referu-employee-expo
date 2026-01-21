@@ -1,4 +1,4 @@
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
@@ -8,6 +8,8 @@ import { hrPostedJobs } from "./mock-data";
 export default function ModalScreen() {
   const { jobId } = useLocalSearchParams<{ jobId: string }>();
   const selectedJob = hrPostedJobs.find((job) => job._id === jobId);
+  const router = useRouter();
+
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="title" style={{ fontSize: 26 }}>
@@ -48,6 +50,16 @@ export default function ModalScreen() {
       <Link href="/" dismissTo style={{ marginTop: 15, paddingVertical: 15 }}>
         <ThemedText type="link">Go to home screen</ThemedText>
       </Link>
+
+      {/* <Button
+        title="хийх"
+        onPress={() =>
+          router.navigate({
+            pathname: "/refer-person",
+            params: { jobId: jobId },
+          })
+        }
+      /> */}
     </ThemedView>
   );
 }

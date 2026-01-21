@@ -111,7 +111,6 @@ export default function HomeScreen() {
 
       <ThemedView style={styles.stepContainer}>
         <ThemedText>
-          see/
           <ThemedText type="defaultSemiBold">
             {Platform.select({
               ios: "cmd + d",
