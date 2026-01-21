@@ -143,15 +143,17 @@ const styles = StyleSheet.create({
   },
   department: {
     marginHorizontal: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: "#f1f5f9",
-    borderRadius: 12,
+    borderTopWidth: 1,
+    borderTopColor: "#e3e6e8ff",
+    paddingTop: 8,
+    borderStyle: "dotted",
+    paddingHorizontal: 8,
   },
   departmentText: {
     fontSize: 11,
     fontWeight: "600",
-    color: "#64748b",
+    color: "#5e6d81ff",
     textTransform: "uppercase",
+    paddingTop: 8,
   },
 });

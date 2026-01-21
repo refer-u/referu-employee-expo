@@ -11,7 +11,7 @@ export default function Header() {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-
+    paddingTop: 30,
     alignItems: "center",
     paddingHorizontal: 16,
     backgroundColor: "#fff",
@@ -24,6 +24,5 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     fontSize: 20,
     fontWeight: "700",
-    letterSpacing: -0.5,
   },
 });
