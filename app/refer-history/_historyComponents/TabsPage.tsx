@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import Badge from "../_uiComponents/Badge";
 import CardItem from "../_uiComponents/CardItem";
 import TabButton from "../_uiComponents/TabButton";
 
@@ -39,18 +40,18 @@ const historyData = {
   ],
 };
 
-type TabKey = "Илгээгдсэн" | "Зөвшөөрсөн" | "Цуцлагдсан";
+type TabKey = "Илгээсэн" | "Зөвшөөрсөн" | "Цуцлагдсан";
 
 export default function TabsPage() {
-  const [activeTab, setActiveTab] = useState<TabKey>("Илгээгдсэн");
+  const [activeTab, setActiveTab] = useState<TabKey>("Илгээсэн");
   return (
     <View style={styles.container}>
       {/* Tabs */}
       <View style={styles.tabs}>
         <TabButton
-          label="Илгээгдсэн"
-          active={activeTab === "Илгээгдсэн"}
-          onPress={() => setActiveTab("Илгээгдсэн")}
+          label="Илгээсэн"
+          active={activeTab === "Илгээсэн"}
+          onPress={() => setActiveTab("Илгээсэн")}
         />
         <TabButton
           label="Зөвшөөрсөн"
@@ -65,12 +66,16 @@ export default function TabsPage() {
       </View>
       <ScrollView contentContainerStyle={styles.content}>
         {/* Илгээгдсэн */}
-        {activeTab === "Илгээгдсэн" &&
+        {activeTab === "Илгээсэн" &&
           historyData.sent.map((i) => (
             <CardItem key={i.id} dotColor="#fb923c">
               <Text style={styles.title}>{i.jobName}</Text>
-              <Text style={styles.muted}>Нэр дэвшигч: {i.candidateName}</Text>
-              {/* <Badge text={formatDate(i.sentDate)} /> */}
+              <Text style={styles.muted}>
+                Санал болгосон: {i.candidateName}
+              </Text>
+              <View style={styles.badges}>
+                <Badge text={`Илгээсэн: ${i.sentDate}`} variant="Илгээсэн" />
+              </View>
             </CardItem>
           ))}
 
@@ -78,13 +83,27 @@ export default function TabsPage() {
         {activeTab === "Зөвшөөрсөн" &&
           historyData.approved.map((i) => (
             <CardItem key={i.id} dotColor="#22c55e">
-              <Text style={styles.title}>{i.jobName}</Text>
-              <Text style={styles.muted}>Нэр дэвшигч: {i.candidateName}</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.title}>{i.jobName}</Text>
+                <Text style={styles.bonus}>{i.bonus}</Text>
+              </View>
+              <Text style={styles.muted}>
+                Санал болгосон: {i.candidateName}
+              </Text>
 
-              {/* <View style={styles.badges}>
-                <Badge text={`Илгээсэн: ${formatDate(i.sentDate)}`} />
-                <Badge text={`Зөвшөөрсөн: ${formatDate(i.approvedDate)}`} />
-              </View> */}
+              <View style={styles.badges}>
+                <Badge text={`Илгээсэн: ${i.sentDate}`} variant="Илгээсэн" />
+
+                <Badge
+                  text={`Зөвшөөрсөн: ${i.approvedDate}`}
+                  variant="Зөвшөөрсөн"
+                />
+              </View>
             </CardItem>
           ))}
 
@@ -93,11 +112,16 @@ export default function TabsPage() {
           historyData.rejected.map((i) => (
             <CardItem key={i.id} dotColor="#ef4444">
               <Text style={styles.title}>{i.jobName}</Text>
-              <Text style={styles.muted}>Нэр дэвшигч: {i.candidateName}</Text>
-              {/* <View style={styles.badges}>
-                <Badge text={`Илгээсэн: ${formatDate(i.sentDate)}`} />
-                <Badge text={`Хариу: ${formatDate(i.responseDate)}`} />
-              </View> */}
+              <Text style={styles.muted}>
+                Санал болгосон: {i.candidateName}
+              </Text>
+              <View style={styles.badges}>
+                <Badge text={`Илгээсэн: ${i.sentDate}`} variant="Илгээсэн" />
+                <Badge
+                  text={`Цуцлагдсан: ${i.responseDate}`}
+                  variant="Цуцлагдсан"
+                />
+              </View>
             </CardItem>
           ))}
       </ScrollView>
@@ -106,15 +130,20 @@ export default function TabsPage() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f0f6ff" },
+  container: {
+    flex: 1,
+    backgroundColor: "#f0f6ff",
+    paddingHorizontal: 9,
+    paddingTop: 25,
+  },
   tabs: {
     flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb",
     backgroundColor: "#fff",
   },
+
+  bonus: { fontSize: 14, fontWeight: "600", color: "#22c55e" },
   content: { padding: 16, gap: 12 },
-  title: { fontSize: 16, fontWeight: "600", color: "#111827" },
+  title: { fontSize: 18, fontWeight: "600", color: "#111827" },
   muted: { fontSize: 13, color: "#6b7280", marginTop: 2 },
   badges: { flexDirection: "row", gap: 8, marginTop: 8, flexWrap: "wrap" },
 });

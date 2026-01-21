@@ -11,7 +11,11 @@ export default function TabButton({ label, active, onPress }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      style={[styles.button, active && styles.active]}
+      style={({ pressed }) => [
+        styles.button,
+        active && styles.active,
+        pressed && styles.pressed,
+      ]}
     >
       <Text style={[styles.text, active && styles.textActive]}>{label}</Text>
     </Pressable>
@@ -21,24 +25,33 @@ export default function TabButton({ label, active, onPress }: Props) {
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    paddingVertical: 12,
     alignItems: "center",
+    height: 44,
+    justifyContent: "center",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#edf0f7ff",
   },
   active: {
+    backgroundColor: "#ffffff",
     borderBottomWidth: 2,
-    borderBottomColor: "#2563eb",
-  },
-  hover: {
-    padding: 2,
-    borderRadius: 2,
-    backgroundColor: "#2563eb",
+    borderRadius: 10,
+    borderBottomColor: "#4f82efff",
+    shadowColor: "#4f82efff",
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
   },
   text: {
-    fontSize: 13,
-    color: "#6b7280",
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#0f172a",
   },
   textActive: {
-    color: "#111827",
-    fontWeight: "600",
+    color: "#0f172a",
+    fontWeight: "500",
+  },
+  pressed: {
+    backgroundColor: "#eff6ff",
+    opacity: 0.7,
   },
 });
