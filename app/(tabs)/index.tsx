@@ -1,11 +1,12 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { JobListIconAnime } from "@/components/job-list-anime";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { formatDate } from "@/libs/utils/format-date";
+import { hrPostedJobs } from "@/libs/utils/get-datas";
 import { Link } from "expo-router";
-import { hrPostedJobs } from "../mock-data";
 
 export default function HomeScreen() {
   return (
@@ -41,12 +42,7 @@ export default function HomeScreen() {
             flexDirection: "row",
             alignItems: "center",
             gap: 10,
-            marginHorizontal: -32,
-            paddingHorizontal: 32,
             paddingBottom: 32,
-
-            borderBottomWidth: 1,
-            borderBlockColor: "#E5E7E8",
           }}
         >
           <JobListIconAnime />
@@ -54,7 +50,7 @@ export default function HomeScreen() {
             <ThemedText type="title" style={{ fontSize: 26 }}>
               Ажлын зар
             </ThemedText>
-            <ThemedText style={{ color: "#71717A" }}>
+            <ThemedText style={{ color: "#687076" }}>
               {hrPostedJobs.length} Нээлттэй ажлын байр
             </ThemedText>
           </ThemedView>
@@ -80,10 +76,12 @@ export default function HomeScreen() {
                     <ThemedText> - </ThemedText>₮
                     {job.salaryMax.toLocaleString()}
                   </ThemedText>
-                  <ThemedText style={{ color: "#71717A" }}>
+                  <ThemedText style={{ color: "#687076" }}>
                     {job.jobDepartment} хэлтэс
                   </ThemedText>
-                  <ThemedText>{job.createdAt}</ThemedText>
+                  <ThemedText style={{ fontSize: 14 }}>
+                    {formatDate(job.createdAt)}
+                  </ThemedText>
                 </ThemedView>
               </Link.Trigger>
 
@@ -116,17 +114,15 @@ export default function HomeScreen() {
           </ThemedView>
         ))}
 
-        <ThemedView style={styles.stepContainer}>
-          <ThemedText>
-            <ThemedText type="defaultSemiBold">
-              {Platform.select({
-                ios: "cmd + d",
-                android: "cmd + m",
-                web: "F12",
-              })}
-            </ThemedText>
+        {/* <ThemedView style={styles.stepContainer}>
+          <ThemedText type="defaultSemiBold">
+            {Platform.select({
+              ios: "cmd + d",
+              android: "cmd + m",
+              web: "F12",
+            })}
           </ThemedText>
-        </ThemedView>
+        </ThemedView> */}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -135,11 +131,18 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: "#E5E7E8",
     borderRadius: 18,
     padding: 18,
     backgroundColor: "#fff",
+
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+
+    elevation: 4,
   },
 });

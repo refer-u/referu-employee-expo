@@ -29,19 +29,7 @@ export default function RootLayout() {
             headerTitleStyle: {
               fontSize: 18,
               fontWeight: "700",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="refer-person/[id]"
-          options={{
-            headerShown: true,
-            presentation: "modal",
-            title: "Санал Болгох Маягт",
-            headerTitleAlign: "left",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: "700",
+              color: "#005295",
             },
           }}
         />
