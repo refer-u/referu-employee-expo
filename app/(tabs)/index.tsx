@@ -7,36 +7,21 @@ import { ThemedView } from "@/components/themed-view";
 import { formatDate } from "@/libs/utils/format-date";
 import { hrPostedJobs } from "@/libs/utils/get-datas";
 import { Link } from "expo-router";
+import { ReferUHeader } from "../_components/ReferUHeader";
 
 export default function HomeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#005295", dark: "#1D3D47" }}
-      headerImage={
-        <ThemedText
-          type="title"
-          style={{
-            color: "#fff",
-            bottom: 0,
-            height: 70,
-            position: "absolute",
-            paddingHorizontal: 30,
-            paddingVertical: 20,
-          }}
-        >
-          Refer
-          <ThemedText
-            type="title"
-            style={{
-              color: "#94A3B8",
-            }}
-          >
-            U
-          </ThemedText>
-        </ThemedText>
-      }
+      headerImage={<ReferUHeader />}
     >
-      <ThemedView style={{ backgroundColor: "#f0f6ff" }}>
+      <ThemedView
+        style={{
+          backgroundColor: "#f0f6ff",
+          paddingVertical: 30,
+          paddingHorizontal: 26,
+        }}
+      >
         <ThemedView
           style={{
             flexDirection: "row",

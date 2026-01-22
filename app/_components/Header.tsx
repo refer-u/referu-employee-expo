@@ -1,8 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+"use client";
+
+import { useRouter } from "expo-router";
+import { ChevronLeft } from "lucide-react-native";
+import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Header() {
+  const router = useRouter();
+
   return (
     <View style={styles.header}>
+      <Pressable onPress={() => router.back()} style={styles.backButton}>
+        <ChevronLeft size={26} color="#32353cff" />
+      </Pressable>
       <Text style={styles.title}>Миний хэсэг</Text>
     </View>
   );
@@ -11,18 +21,21 @@ export default function Header() {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    paddingTop: 30,
+    gap: 2,
     alignItems: "center",
-    paddingHorizontal: 16,
-    backgroundColor: "#fff",
-    width: "100%",
+    paddingHorizontal: 12,
+    paddingVertical: 24,
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
+    backgroundColor: "#fff",
+  },
+  backButton: {
+    padding: 8,
   },
   title: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
     fontSize: 20,
     fontWeight: "700",
+    color: "#111827",
+    letterSpacing: -0.5,
   },
 });
