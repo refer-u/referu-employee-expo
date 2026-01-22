@@ -2,9 +2,8 @@ import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import MenuItem from "../_components/MenuItem";
-
 import Header from "../_components/Header";
+import MenuItem from "../_components/MenuItem";
 import { mockEmployee } from "../_components/mockEmployee";
 import { ProfileCard } from "../_components/ProfileCard";
 import { ReferUHeader } from "../_components/ReferUHeader";
