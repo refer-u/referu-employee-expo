@@ -179,11 +179,7 @@ export default function ReferPerson() {
             <Text>
               Анкет (PDF) хавсаргах<Text style={{ color: "#EF4444" }}> *</Text>
             </Text>
-            <TextInput
-              style={styles.input}
-              value={candidateResume}
-              onChangeText={setCandidateResume}
-            />
+            <TextInput style={styles.input} />
           </View>
         </View>
 
