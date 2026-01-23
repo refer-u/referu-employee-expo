@@ -152,7 +152,10 @@ export default function ModalScreen() {
           </ThemedView>
 
           <ThemedView style={styles.subContainer}>
-            <ThemedText type="subtitle" style={{ fontSize: 18 }}>
+            <ThemedText
+              type="subtitle"
+              style={{ fontSize: 18, flexWrap: "wrap" }}
+            >
               Байршил
             </ThemedText>
             <ThemedView
