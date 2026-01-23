@@ -26,7 +26,6 @@ export default function MySection() {
           </View>
         </View>
       </View>
-      {/* Миний page контент */}
     </ParallaxScrollView>
   );
 }
