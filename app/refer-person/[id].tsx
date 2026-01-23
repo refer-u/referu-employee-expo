@@ -192,7 +192,7 @@ export default function ReferPerson() {
               value={hasCandidateConsent}
               onValueChange={setHasCandidateConsent}
             />
-            <Text>
+            <Text style={{ flexShrink: 1 }}>
               Санал болгож буй хүний зөвшөөрлийг урьдчилан авсан.
               <Text style={{ color: "#EF4444" }}> *</Text>
             </Text>
@@ -202,7 +202,7 @@ export default function ReferPerson() {
               value={isNotCurrentEmployee}
               onValueChange={setIsNotCurrentEmployee}
             />
-            <Text>
+            <Text style={{ flexShrink: 1 }}>
               Санал болгож буй хүн одоо энэхүү компанид ажилладаггүй.
               <Text style={{ color: "#EF4444" }}> *</Text>
             </Text>
@@ -270,11 +270,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "#f0f6ff",
-    gap: 16,
+    gap: 18,
     paddingBottom: 100,
   },
   stepContainer: {
-    gap: 10,
+    gap: 6,
     borderWidth: 1,
     borderColor: "#E5E7E8",
     borderRadius: 18,
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   stepPlusContainer: {
-    gap: 20,
+    gap: 10,
   },
   input: {
     borderWidth: 1,
