@@ -132,7 +132,14 @@ export default function ModalScreen() {
         </ThemedView>
 
         <ThemedView style={styles.stepContainer}>
-          <ThemedView style={styles.subContainer}>
+          <ThemedView
+            style={{
+              backgroundColor: "#fff",
+              flexDirection: "column",
+              gap: 4,
+              alignItems: "flex-start",
+            }}
+          >
             <ThemedText type="subtitle" style={{ fontSize: 18 }}>
               Холбоо барих
             </ThemedText>
@@ -151,11 +158,15 @@ export default function ModalScreen() {
             </ThemedView>
           </ThemedView>
 
-          <ThemedView style={styles.subContainer}>
-            <ThemedText
-              type="subtitle"
-              style={{ fontSize: 18, flexWrap: "wrap" }}
-            >
+          <ThemedView
+            style={{
+              backgroundColor: "#fff",
+              flexDirection: "column",
+              gap: 4,
+              alignItems: "flex-start",
+            }}
+          >
+            <ThemedText type="subtitle" style={{ fontSize: 18 }}>
               Байршил
             </ThemedText>
             <ThemedView
@@ -167,7 +178,7 @@ export default function ModalScreen() {
               }}
             >
               <FontAwesome6 name="location-dot" size={20} color="#0a7ea4" />
-              <ThemedText style={{ color: "#687076" }}>
+              <ThemedText style={{ color: "#687076", flexShrink: 1 }}>
                 {selectedJob?.location}
               </ThemedText>
             </ThemedView>
