@@ -1,9 +1,16 @@
+"use client";
 import { mockEmployeeData } from "@/libs/utils/get-datas";
 import { getJobLevelMN } from "@/libs/utils/get-job-level-mn";
 import { getJobTypeMN } from "@/libs/utils/get-job-type-mn";
+import { statusOptions } from "@/libs/utils/status-options";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import {
+  Animated,
+  Easing,
+  Linking,
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,6 +19,8 @@ import {
   TextInput,
   View,
 } from "react-native";
+import "react-native-gesture-handler";
+import "react-native-reanimated";
 
 export default function ReferPerson() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -32,10 +41,39 @@ export default function ReferPerson() {
     useState<boolean>(false);
   const [relationWithCandidate, setRelationWithCandidate] = useState("");
   const [refferalReason, setRefferalReason] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(500)).current;
+
   const router = useRouter();
 
   const handleSendReferral = () => {
     alert("working");
+  };
+
+  useEffect(() => {
+    if (modalVisible) {
+      slideAnim.setValue(300);
+
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 500,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [modalVisible]);
+
+  const openEmail = async (email: string) => {
+    const gmailUrl = `googlegmail://co?to=${email}`;
+    const mailtoUrl = `mailto:${email}`;
+
+    const canOpenGmail = await Linking.canOpenURL(gmailUrl);
+
+    if (canOpenGmail) {
+      Linking.openURL(gmailUrl);
+    } else {
+      Linking.openURL(mailtoUrl);
+    }
   };
 
   return (
@@ -45,196 +83,275 @@ export default function ReferPerson() {
       contentContainerStyle={{ paddingBottom: 30 }}
     >
       <View style={styles.container}>
-        <View style={styles.stepContainer}>
-          <Text style={{ fontSize: 17, fontWeight: "700", color: "#687076" }}>
+        <View style={styles.containerSection}>
+          <Text style={{ fontSize: 17, fontWeight: "700" }}>
             Санал болгогч ажилтны мэдээлэл
           </Text>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text>Нэр: </Text>
-            <Text>
-              {mockEmployeeData.employeeLastName.split("")[0]}.
-              <Text>{mockEmployeeData.employeeFirstName}</Text>
-            </Text>
-          </View>
+          <View>
+            <View style={styles.workerLine}>
+              <Text style={styles.workerLineLabel}>Нэр: </Text>
+              <Text style={styles.workerLineValue}>
+                {mockEmployeeData.employeeLastName.split("")[0]}.
+                <Text>{mockEmployeeData.employeeFirstName}</Text>
+              </Text>
+            </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text>Хэлтэс: </Text>
-            <Text>{mockEmployeeData.employeeDepartment}</Text>
-          </View>
+            <View style={styles.workerLine}>
+              <Text style={styles.workerLineLabel}>Хэлтэс: </Text>
+              <Text style={styles.workerLineValue}>
+                {mockEmployeeData.employeeDepartment}
+              </Text>
+            </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text>Түвшин: </Text>
-            <Text>{getJobLevelMN(mockEmployeeData.employeeJobLevel)}</Text>
-          </View>
+            <View style={styles.workerLine}>
+              <Text style={styles.workerLineLabel}>Түвшин: </Text>
+              <Text style={styles.workerLineValue}>
+                {getJobLevelMN(mockEmployeeData.employeeJobLevel)}
+              </Text>
+            </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text>Төрөл: </Text>
-            <Text>{getJobTypeMN(mockEmployeeData.employeeJobType)}</Text>
-          </View>
+            <View style={styles.workerLine}>
+              <Text style={styles.workerLineLabel}>Төрөл: </Text>
+              <Text style={styles.workerLineValue}>
+                {getJobTypeMN(mockEmployeeData.employeeJobType)}
+              </Text>
+            </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text>Утас: </Text>
-            <Text>{mockEmployeeData.employeeTelNumber}</Text>
-          </View>
+            <View style={styles.workerLine}>
+              <Text style={styles.workerLineLabel}>Утас: </Text>
+              <Pressable
+                onPress={() =>
+                  Linking.openURL(`tel:${mockEmployeeData.employeeTelNumber}`)
+                }
+                style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+              >
+                <Text
+                  style={[
+                    styles.workerLineValue,
+                    { textDecorationLine: "underline" },
+                  ]}
+                >
+                  {mockEmployeeData.employeeTelNumber}
+                </Text>
+              </Pressable>
+            </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text>И-мэйл хаяг: </Text>
-            <Text>{mockEmployeeData.employeeEmail}</Text>
+            <View style={styles.workerLine}>
+              <Text style={styles.workerLineLabel}>И-мэйл хаяг: </Text>
+              <Pressable
+                onPress={() => openEmail(mockEmployeeData.employeeEmail!)}
+                style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+              >
+                <Text
+                  style={[
+                    styles.workerLineValue,
+                    { textDecorationLine: "underline" },
+                  ]}
+                >
+                  {mockEmployeeData.employeeEmail}
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
 
-        <View style={[styles.stepContainer, styles.stepPlusContainer]}>
+        <View style={styles.containerSection}>
           <Text style={{ fontSize: 17, fontWeight: "700" }}>
             Санал болгож буй хүний мэдээлэл
           </Text>
 
-          <View>
-            <Text>
-              Овог<Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={candidateLastName}
-              onChangeText={setCandidateLastName}
-            />
-          </View>
+          <View style={{ flexDirection: "column", gap: 10 }}>
+            <View>
+              <Text>
+                Овог<Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={candidateLastName}
+                onChangeText={setCandidateLastName}
+              />
+            </View>
 
-          <View>
-            <Text>
-              Нэр<Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={candidateFirstName}
-              onChangeText={setCandidateFirstName}
-            />
-          </View>
+            <View>
+              <Text>
+                Нэр<Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={candidateFirstName}
+                onChangeText={setCandidateFirstName}
+              />
+            </View>
 
-          <View>
-            <Text>
-              Утасны дугаар<Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={candidateTelNumber}
-              onChangeText={setCandidateTelNumber}
-            />
-          </View>
+            <View>
+              <Text>
+                Утасны дугаар<Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={candidateTelNumber}
+                onChangeText={setCandidateTelNumber}
+              />
+            </View>
 
-          <View>
-            <Text>
-              И-мэйл хаяг<Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={candidateEmail}
-              onChangeText={setCandidateEmail}
-            />
-          </View>
+            <View>
+              <Text>
+                И-мэйл хаяг<Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={candidateEmail}
+                onChangeText={setCandidateEmail}
+              />
+            </View>
 
-          <View>
-            <Text>Linkedin хаяг</Text>
-            <TextInput
-              style={styles.input}
-              value={candidateLinkedinUrl}
-              onChangeText={setCandidateLinkedinUrl}
-            />
-          </View>
+            <View>
+              <Text>Linkedin хаяг</Text>
+              <TextInput
+                style={styles.input}
+                value={candidateLinkedinUrl}
+                onChangeText={setCandidateLinkedinUrl}
+              />
+            </View>
 
-          <View>
-            <Text>
-              Сонирхож буй ажлын чиглэл
-              <Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={candidateFieldOfInterest}
-              onChangeText={setCandidateFieldOfInterest}
-            />
-          </View>
+            <View>
+              <Text>
+                Сонирхож буй ажлын чиглэл
+                <Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={candidateFieldOfInterest}
+                onChangeText={setCandidateFieldOfInterest}
+              />
+            </View>
 
-          <View>
-            <Text>Одоогийн ажил эрхлэлтийн байдал</Text>
-            <TextInput
-              style={styles.input}
-              value={candidateCurrentStatus}
-              onChangeText={setCandidateCurrentStatus}
-            />
-          </View>
+            <View>
+              <Text>
+                Одоогийн ажил эрхлэлтийн байдал
+                <Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
 
-          <View>
-            <Text>
-              Анкет (PDF) хавсаргах<Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput style={styles.input} />
+              <Pressable
+                style={styles.input}
+                onPress={() => setModalVisible(true)}
+              >
+                <Text>
+                  {candidateCurrentStatus
+                    ? statusOptions.find(
+                        (s) => s.value === candidateCurrentStatus,
+                      )?.label
+                    : "Сонгох / оруулах"}
+                </Text>
+              </Pressable>
+
+              <Modal
+                transparent
+                visible={modalVisible}
+                animationType="none"
+                onRequestClose={() => setModalVisible(false)}
+              >
+                <Pressable
+                  style={styles.modalBackground}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Pressable onPress={() => {}}>
+                    <Animated.View
+                      style={[
+                        styles.dropdownContainer,
+                        { transform: [{ translateY: slideAnim }] },
+                      ]}
+                    >
+                      <ScrollView>
+                        {statusOptions.map((status) => (
+                          <Pressable
+                            key={status.value}
+                            style={styles.option}
+                            onPress={() => {
+                              setCandidateCurrentStatus(status.value);
+                              setModalVisible(false);
+                            }}
+                          >
+                            <Text>{status.label}</Text>
+                          </Pressable>
+                        ))}
+                      </ScrollView>
+                    </Animated.View>
+                  </Pressable>
+                </Pressable>
+              </Modal>
+            </View>
+
+            <View>
+              <Text>
+                Анкет (PDF) хавсаргах
+                <Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput style={styles.input} />
+            </View>
           </View>
         </View>
 
-        <View style={[styles.stepContainer, styles.stepPlusContainer]}>
+        <View style={styles.containerSection}>
           <Text style={{ fontSize: 17, fontWeight: "700" }}>
             Баталгаажуулах хэсэг
           </Text>
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <Switch
-              value={hasCandidateConsent}
-              onValueChange={setHasCandidateConsent}
-            />
-            <Text style={{ flexShrink: 1 }}>
-              Санал болгож буй хүний зөвшөөрлийг урьдчилан авсан.
-              <Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-          </View>
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <Switch
-              value={isNotCurrentEmployee}
-              onValueChange={setIsNotCurrentEmployee}
-            />
-            <Text style={{ flexShrink: 1 }}>
-              Санал болгож буй хүн одоо энэхүү компанид ажилладаггүй.
-              <Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
+          <View>
+            <View
+              style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
+            >
+              <Switch
+                value={hasCandidateConsent}
+                onValueChange={setHasCandidateConsent}
+              />
+              <Text style={{ flexShrink: 1 }}>
+                Санал болгож буй хүний зөвшөөрлийг урьдчилан авсан.
+                <Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+            </View>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <Switch
+                value={isNotCurrentEmployee}
+                onValueChange={setIsNotCurrentEmployee}
+              />
+              <Text style={{ flexShrink: 1 }}>
+                Санал болгож буй хүн одоо энэхүү компанид ажилладаггүй.
+                <Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+            </View>
           </View>
         </View>
 
-        <View style={[styles.stepContainer, styles.stepPlusContainer]}>
+        <View style={styles.containerSection}>
           <Text style={{ fontSize: 17, fontWeight: "700" }}>
             Холбогдох асуумж
           </Text>
-          <View>
-            <Text>
-              Та санал болгож буй хүнтэй ямар хамааралтай вэ?
-              <Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={relationWithCandidate}
-              onChangeText={setRelationWithCandidate}
-            />
-          </View>
 
           <View>
-            <Text>
-              Дээрх ажлын байранд тухайн хүнийг санал болгож буй шалтгаанаа
-              бичнэ үү.<Text style={{ color: "#EF4444" }}> *</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={refferalReason}
-              onChangeText={setRefferalReason}
-            />
+            <View>
+              <Text>
+                Та санал болгож буй хүнтэй ямар хамааралтай вэ?
+                <Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={relationWithCandidate}
+                onChangeText={setRelationWithCandidate}
+              />
+            </View>
+
+            <View>
+              <Text>
+                Дээрх ажлын байранд тухайн хүнийг санал болгож буй шалтгаанаа
+                бичнэ үү.<Text style={{ color: "#EF4444" }}> *</Text>
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={refferalReason}
+                onChangeText={setRefferalReason}
+              />
+            </View>
           </View>
         </View>
 
@@ -273,8 +390,8 @@ const styles = StyleSheet.create({
     gap: 18,
     paddingBottom: 100,
   },
-  stepContainer: {
-    gap: 6,
+  containerSection: {
+    gap: 14,
     borderWidth: 1,
     borderColor: "#E5E7E8",
     borderRadius: 18,
@@ -286,22 +403,45 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 3,
   },
-  stepPlusContainer: {
-    gap: 10,
+  workerLine: { flexDirection: "row", justifyContent: "space-between" },
+  workerLineLabel: {
+    color: "#687076",
+    fontWeight: "500",
+  },
+  workerLineValue: {
+    color: "#005295",
+    fontWeight: "500",
   },
   input: {
     borderWidth: 1,
-    borderRadius: 8,
     borderColor: "#d8d8d8",
-    backgroundColor: "#fff",
+    borderRadius: 8,
     padding: 8,
-    marginTop: 16,
+    backgroundColor: "#fff",
+    height: 36,
   },
   subContainer: {
     backgroundColor: "#fff",
     flexDirection: "column",
   },
-
+  dropdownContainer: {
+    backgroundColor: "#fff",
+    maxHeight: 250,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingHorizontal: 22,
+    paddingVertical: 10,
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: "#00000026",
+  },
+  option: {
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
   btn: {
     flex: 1,
     height: 48,
@@ -332,11 +472,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 76,
+    height: 84,
     flexDirection: "row",
     gap: 12,
     paddingHorizontal: 20,
-    paddingTop: 12,
+    paddingTop: 14,
     paddingBottom: 20,
     backgroundColor: "#fff",
     borderTopWidth: 1,
