@@ -204,7 +204,7 @@ export default function ModalScreen() {
             style={({ pressed }) => [
               styles.btn,
               styles.btnOutline,
-              pressed && { opacity: 0.7 },
+              pressed && { opacity: 0.6 },
             ]}
           >
             <ThemedText style={styles.btnOutlineText}>Буцах</ThemedText>
@@ -220,7 +220,7 @@ export default function ModalScreen() {
             style={({ pressed }) => [
               styles.btn,
               styles.btnPrimary,
-              pressed && { opacity: 0.85 },
+              pressed && { opacity: 0.6 },
             ]}
           >
             <ThemedText style={styles.btnPrimaryText}>Санал болгох</ThemedText>
