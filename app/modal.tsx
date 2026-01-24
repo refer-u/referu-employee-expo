@@ -44,6 +44,7 @@ export default function ModalScreen() {
       <ThemedView style={styles.container}>
         <ThemedView style={styles.containerSection}>
           <ThemedText type="subtitle">{selectedJob?.jobTitle}</ThemedText>
+
           <ThemedText
             type="subtitle"
             style={{ color: "#005295", fontSize: 19 }}
@@ -52,25 +53,44 @@ export default function ModalScreen() {
             <ThemedText> - </ThemedText>₮
             {selectedJob?.salaryMin?.toLocaleString()}
           </ThemedText>
-          <ThemedView style={styles.subtitleListColor}>
-            <ThemedText style={{ color: "#0a7ea4", fontWeight: "500" }}>
-              <ThemedText style={{ color: "#687076" }}>Хэлтэс: </ThemedText>
-              {selectedJob?.jobDepartment}
+
+          <ThemedView style={{ flexDirection: "column" }}>
+            <ThemedView style={styles.firstSectionListColor}>
+              <ThemedText style={styles.firstSectionListLabel}>
+                Хэлтэс:
+              </ThemedText>
+              <ThemedText style={styles.firstSectionListValue}>
+                {selectedJob?.jobDepartment}
+              </ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.firstSectionListColor}>
+              <ThemedText style={styles.firstSectionListLabel}>
+                Түвшин:
+              </ThemedText>
+              <ThemedText style={styles.firstSectionListValue}>
+                {getJobLevelMN(selectedJob?.jobLevel)}
+              </ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.firstSectionListColor}>
+              <ThemedText style={styles.firstSectionListLabel}>
+                Төрөл:
+              </ThemedText>
+              <ThemedText style={styles.firstSectionListValue}>
+                {getJobTypeMN(selectedJob?.jobType)}
+              </ThemedText>
+            </ThemedView>
+          </ThemedView>
+
+          <ThemedView style={styles.firstSectionDate}>
+            <ThemedText style={styles.firstSectionDateLabel}>
+              Нийтэлсэн огноо:
             </ThemedText>
-            <ThemedText style={{ color: "#0a7ea4", fontWeight: "500" }}>
-              <ThemedText style={{ color: "#687076" }}>Төрөл: </ThemedText>
-              {getJobTypeMN(selectedJob?.jobType)}
-            </ThemedText>
-            <ThemedText style={{ color: "#0a7ea4", fontWeight: "500" }}>
-              <ThemedText style={{ color: "#687076" }}>Түвшин: </ThemedText>
-              {getJobLevelMN(selectedJob?.jobLevel)}
+            <ThemedText style={styles.firstSectionDateValue}>
+              {formatDate(selectedJob?.createdAt)}
             </ThemedText>
           </ThemedView>
-          <ThemedText
-            style={{ fontSize: 14, color: "#005295", fontWeight: "500" }}
-          >
-            Нийтэлсэн огноо: {formatDate(selectedJob?.createdAt)}
-          </ThemedText>
         </ThemedView>
 
         <ThemedView style={styles.containerSection}>
@@ -78,7 +98,7 @@ export default function ModalScreen() {
             <ThemedText type="subtitle" style={styles.subtitle}>
               Гүйцэтгэх үндсэн үүрэг
             </ThemedText>
-            <ThemedView style={styles.subtitleListColor}>
+            <ThemedView style={styles.subSectionList}>
               {selectedJob?.keyDuties.map((duty) => (
                 <ThemedText style={{ color: "#687076" }} key={duty}>
                   <ThemedText style={{ color: "#0a7ea4" }}>• </ThemedText>
@@ -92,7 +112,7 @@ export default function ModalScreen() {
             <ThemedText type="subtitle" style={styles.subtitle}>
               Ажлын байранд тавигдах шаардлага
             </ThemedText>
-            <ThemedView style={styles.subtitleListColor}>
+            <ThemedView style={styles.subSectionList}>
               {selectedJob?.requirements.map((requirement) => (
                 <ThemedText key={requirement} style={{ color: "#687076" }}>
                   <ThemedText style={{ color: "#005295" }}>
@@ -108,7 +128,7 @@ export default function ModalScreen() {
             <ThemedText type="subtitle" style={styles.subtitle}>
               Нэмэлт мэдээлэл
             </ThemedText>
-            <ThemedView style={styles.subtitleListColor}>
+            <ThemedView style={styles.subSectionList}>
               <ThemedText style={{ color: "#687076" }}>
                 <ThemedText style={{ color: "#0a7ea4" }}>• </ThemedText>
                 {selectedJob?.additionalNotes}
@@ -120,7 +140,7 @@ export default function ModalScreen() {
             <ThemedText type="subtitle" style={styles.subtitle}>
               Шаардлагатай ур чадварууд
             </ThemedText>
-            <ThemedView style={styles.subtitleListColor}>
+            <ThemedView style={styles.subSectionList}>
               {selectedJob?.requiredSkills.map((skill) => (
                 <ThemedText key={skill} style={{ color: "#687076" }}>
                   <ThemedText style={{ color: "#0a7ea4" }}>• </ThemedText>
@@ -134,7 +154,7 @@ export default function ModalScreen() {
             <ThemedText type="subtitle" style={styles.subtitle}>
               Хангамж урамшуулал
             </ThemedText>
-            <ThemedView style={styles.subtitleListColor}>
+            <ThemedView style={styles.subSectionList}>
               {selectedJob?.benefits.map((benefit) => (
                 <ThemedText key={benefit} style={{ color: "#687076" }}>
                   <ThemedText style={{ color: "#0a7ea4" }}>• </ThemedText>
@@ -193,7 +213,7 @@ export default function ModalScreen() {
           <Pressable
             onPress={() =>
               router.navigate({
-                pathname: "/refer-person/[id]",
+                pathname: "/[id]",
                 params: { id: selectedJob._id },
               })
             }
@@ -232,20 +252,32 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 3,
   },
-  subSection: { flexDirection: "column", gap: 3, backgroundColor: "#fff" },
-  subtitleListColor: {
+  firstSectionListColor: {
     backgroundColor: "#fff",
-    flexDirection: "column",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
+  firstSectionListLabel: { color: "#687076", fontWeight: "500" },
+  firstSectionListValue: { color: "#0a7ea4", fontWeight: "500" },
+  firstSectionDate: {
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    gap: 3,
+    alignItems: "center",
+  },
+  firstSectionDateLabel: { fontSize: 14, color: "#005295", fontWeight: "500" },
+  firstSectionDateValue: { fontSize: 13, color: "#005295", fontWeight: "500" },
+  subSection: { flexDirection: "column", gap: 5, backgroundColor: "#fff" },
+  subSectionList: { backgroundColor: "#fff" },
   subtitle: {
     fontSize: 17,
     backgroundColor: "#fff",
   },
-  text: { fontSize: 14 },
   withIcon: {
     backgroundColor: "#fff",
     flexDirection: "row",
-    gap: 4,
+    gap: 8,
     alignItems: "center",
   },
   btn: {

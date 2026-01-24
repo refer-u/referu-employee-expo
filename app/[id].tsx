@@ -2,6 +2,7 @@
 import { mockEmployeeData } from "@/libs/utils/get-datas";
 import { getJobLevelMN } from "@/libs/utils/get-job-level-mn";
 import { getJobTypeMN } from "@/libs/utils/get-job-type-mn";
+import { relationOptions } from "@/libs/utils/relation-options";
 import { statusOptions } from "@/libs/utils/status-options";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
@@ -41,7 +42,10 @@ export default function ReferPerson() {
     useState<boolean>(false);
   const [relationWithCandidate, setRelationWithCandidate] = useState("");
   const [refferalReason, setRefferalReason] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalCurrentStatusVisible, setModalCurrentStatusVisible] =
+    useState(false);
+  const [modalRelationVisible, setModalRelationVisible] = useState(false);
+
   const slideAnim = useRef(new Animated.Value(500)).current;
 
   const router = useRouter();
@@ -51,7 +55,7 @@ export default function ReferPerson() {
   };
 
   useEffect(() => {
-    if (modalVisible) {
+    if (modalCurrentStatusVisible) {
       slideAnim.setValue(300);
 
       Animated.timing(slideAnim, {
@@ -61,7 +65,7 @@ export default function ReferPerson() {
         useNativeDriver: true,
       }).start();
     }
-  }, [modalVisible]);
+  }, [modalCurrentStatusVisible]);
 
   const openEmail = async (email: string) => {
     const gmailUrl = `googlegmail://co?to=${email}`;
@@ -88,7 +92,7 @@ export default function ReferPerson() {
             Санал болгогч ажилтны мэдээлэл
           </Text>
 
-          <View>
+          <View style={{ flexDirection: "column", gap: 2 }}>
             <View style={styles.workerLine}>
               <Text style={styles.workerLineLabel}>Нэр: </Text>
               <Text style={styles.workerLineValue}>
@@ -161,8 +165,8 @@ export default function ReferPerson() {
             Санал болгож буй хүний мэдээлэл
           </Text>
 
-          <View style={{ flexDirection: "column", gap: 10 }}>
-            <View>
+          <View style={{ flexDirection: "column", gap: 16 }}>
+            <View style={styles.inputLabelGap}>
               <Text>
                 Овог<Text style={{ color: "#EF4444" }}> *</Text>
               </Text>
@@ -173,7 +177,7 @@ export default function ReferPerson() {
               />
             </View>
 
-            <View>
+            <View style={styles.inputLabelGap}>
               <Text>
                 Нэр<Text style={{ color: "#EF4444" }}> *</Text>
               </Text>
@@ -184,7 +188,7 @@ export default function ReferPerson() {
               />
             </View>
 
-            <View>
+            <View style={styles.inputLabelGap}>
               <Text>
                 Утасны дугаар<Text style={{ color: "#EF4444" }}> *</Text>
               </Text>
@@ -195,7 +199,7 @@ export default function ReferPerson() {
               />
             </View>
 
-            <View>
+            <View style={styles.inputLabelGap}>
               <Text>
                 И-мэйл хаяг<Text style={{ color: "#EF4444" }}> *</Text>
               </Text>
@@ -206,7 +210,7 @@ export default function ReferPerson() {
               />
             </View>
 
-            <View>
+            <View style={styles.inputLabelGap}>
               <Text>Linkedin хаяг</Text>
               <TextInput
                 style={styles.input}
@@ -215,11 +219,8 @@ export default function ReferPerson() {
               />
             </View>
 
-            <View>
-              <Text>
-                Сонирхож буй ажлын чиглэл
-                <Text style={{ color: "#EF4444" }}> *</Text>
-              </Text>
+            <View style={styles.inputLabelGap}>
+              <Text>Сонирхож буй ажлын чиглэл</Text>
               <TextInput
                 style={styles.input}
                 value={candidateFieldOfInterest}
@@ -227,7 +228,7 @@ export default function ReferPerson() {
               />
             </View>
 
-            <View>
+            <View style={styles.inputLabelGap}>
               <Text>
                 Одоогийн ажил эрхлэлтийн байдал
                 <Text style={{ color: "#EF4444" }}> *</Text>
@@ -235,7 +236,7 @@ export default function ReferPerson() {
 
               <Pressable
                 style={styles.input}
-                onPress={() => setModalVisible(true)}
+                onPress={() => setModalCurrentStatusVisible(true)}
               >
                 <Text>
                   {candidateCurrentStatus
@@ -248,42 +249,40 @@ export default function ReferPerson() {
 
               <Modal
                 transparent
-                visible={modalVisible}
-                animationType="none"
-                onRequestClose={() => setModalVisible(false)}
+                visible={modalCurrentStatusVisible}
+                animationType="slide"
+                onRequestClose={() => setModalCurrentStatusVisible(false)}
               >
                 <Pressable
                   style={styles.modalBackground}
-                  onPress={() => setModalVisible(false)}
+                  onPress={() => setModalCurrentStatusVisible(false)}
                 >
-                  <Pressable onPress={() => {}}>
-                    <Animated.View
-                      style={[
-                        styles.dropdownContainer,
-                        { transform: [{ translateY: slideAnim }] },
-                      ]}
-                    >
-                      <ScrollView>
-                        {statusOptions.map((status) => (
-                          <Pressable
-                            key={status.value}
-                            style={styles.option}
-                            onPress={() => {
-                              setCandidateCurrentStatus(status.value);
-                              setModalVisible(false);
-                            }}
-                          >
-                            <Text>{status.label}</Text>
-                          </Pressable>
-                        ))}
-                      </ScrollView>
-                    </Animated.View>
-                  </Pressable>
+                  <Animated.View
+                    style={[
+                      styles.dropdownContainer,
+                      { transform: [{ translateY: slideAnim }] },
+                    ]}
+                  >
+                    <ScrollView>
+                      {statusOptions.map((status) => (
+                        <Pressable
+                          key={status.value}
+                          style={styles.option}
+                          onPress={() => {
+                            setCandidateCurrentStatus(status.value);
+                            setModalCurrentStatusVisible(false);
+                          }}
+                        >
+                          <Text>{status.label}</Text>
+                        </Pressable>
+                      ))}
+                    </ScrollView>
+                  </Animated.View>
                 </Pressable>
               </Modal>
             </View>
 
-            <View>
+            <View style={styles.inputLabelGap}>
               <Text>
                 Анкет (PDF) хавсаргах
                 <Text style={{ color: "#EF4444" }}> *</Text>
@@ -297,7 +296,8 @@ export default function ReferPerson() {
           <Text style={{ fontSize: 17, fontWeight: "700" }}>
             Баталгаажуулах хэсэг
           </Text>
-          <View>
+
+          <View style={{ flexDirection: "column", gap: 16 }}>
             <View
               style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
             >
@@ -310,6 +310,7 @@ export default function ReferPerson() {
                 <Text style={{ color: "#EF4444" }}> *</Text>
               </Text>
             </View>
+
             <View style={{ flexDirection: "row", gap: 10 }}>
               <Switch
                 value={isNotCurrentEmployee}
@@ -328,26 +329,68 @@ export default function ReferPerson() {
             Холбогдох асуумж
           </Text>
 
-          <View>
-            <View>
+          <View style={{ flexDirection: "column", gap: 16 }}>
+            <View style={styles.inputLabelGap}>
               <Text>
                 Та санал болгож буй хүнтэй ямар хамааралтай вэ?
                 <Text style={{ color: "#EF4444" }}> *</Text>
               </Text>
-              <TextInput
+
+              <Pressable
                 style={styles.input}
-                value={relationWithCandidate}
-                onChangeText={setRelationWithCandidate}
-              />
+                onPress={() => setModalRelationVisible(true)}
+              >
+                <Text>
+                  {relationWithCandidate
+                    ? relationOptions.find(
+                        (r) => r.value === relationWithCandidate,
+                      )?.label
+                    : "Сонгох / оруулах"}
+                </Text>
+              </Pressable>
+
+              <Modal
+                transparent
+                visible={modalRelationVisible}
+                animationType="slide"
+                onRequestClose={() => setModalRelationVisible(false)}
+              >
+                <Pressable
+                  style={styles.modalBackground}
+                  onPress={() => setModalRelationVisible(false)}
+                >
+                  <Animated.View
+                    style={[
+                      styles.dropdownContainer,
+                      { transform: [{ translateY: slideAnim }] },
+                    ]}
+                  >
+                    <ScrollView>
+                      {relationOptions.map((relation) => (
+                        <Pressable
+                          key={relation.value}
+                          style={styles.option}
+                          onPress={() => {
+                            setRelationWithCandidate(relation.value);
+                            setModalRelationVisible(false);
+                          }}
+                        >
+                          <Text>{relation.label}</Text>
+                        </Pressable>
+                      ))}
+                    </ScrollView>
+                  </Animated.View>
+                </Pressable>
+              </Modal>
             </View>
 
-            <View>
+            <View style={styles.inputLabelGap}>
               <Text>
                 Дээрх ажлын байранд тухайн хүнийг санал болгож буй шалтгаанаа
                 бичнэ үү.<Text style={{ color: "#EF4444" }}> *</Text>
               </Text>
               <TextInput
-                style={styles.input}
+                style={[styles.input, { height: 72 }]}
                 value={refferalReason}
                 onChangeText={setRefferalReason}
               />
@@ -403,14 +446,24 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 3,
   },
-  workerLine: { flexDirection: "row", justifyContent: "space-between" },
+  workerLine: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   workerLineLabel: {
     color: "#687076",
     fontWeight: "500",
+    fontSize: 15,
   },
   workerLineValue: {
     color: "#005295",
     fontWeight: "500",
+    fontSize: 15,
+  },
+  inputLabelGap: {
+    flexDirection: "column",
+    gap: 5,
   },
   input: {
     borderWidth: 1,
@@ -419,10 +472,6 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: "#fff",
     height: 36,
-  },
-  subContainer: {
-    backgroundColor: "#fff",
-    flexDirection: "column",
   },
   dropdownContainer: {
     backgroundColor: "#fff",
