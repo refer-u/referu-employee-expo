@@ -4,28 +4,17 @@ import { formatDate } from "@/libs/utils/format-date";
 import { hrPostedJobs } from "@/libs/utils/get-datas";
 import { getJobLevelMN } from "@/libs/utils/get-job-level-mn";
 import { getJobTypeMN } from "@/libs/utils/get-job-type-mn";
+import { openEmail } from "@/libs/utils/open-email";
+import { openMap } from "@/libs/utils/open-map";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Linking, Pressable, ScrollView, StyleSheet } from "react-native";
+import { Pressable, ScrollView, StyleSheet } from "react-native";
 
 export default function ModalScreen() {
   const { jobId } = useLocalSearchParams<{ jobId: string }>();
   const selectedJob = hrPostedJobs.find((job) => job._id === jobId);
   const router = useRouter();
-
-  const openEmail = async (email: string) => {
-    const gmailUrl = `googlegmail://co?to=${email}`;
-    const mailtoUrl = `mailto:${email}`;
-
-    const canOpenGmail = await Linking.canOpenURL(gmailUrl);
-
-    if (canOpenGmail) {
-      Linking.openURL(gmailUrl);
-    } else {
-      Linking.openURL(mailtoUrl);
-    }
-  };
 
   if (!selectedJob) {
     return (
@@ -191,9 +180,24 @@ export default function ModalScreen() {
             </ThemedText>
             <ThemedView style={styles.withIcon}>
               <FontAwesome6 name="location-dot" size={20} color="#0a7ea4" />
-              <ThemedText style={{ color: "#687076", flexShrink: 1 }}>
-                {selectedJob?.location}
-              </ThemedText>
+
+              <Pressable
+                onPress={() => openMap(selectedJob?.location!)}
+                style={({ pressed }) => [
+                  { flexShrink: 1 },
+                  pressed && { opacity: 0.6 },
+                ]}
+              >
+                <ThemedText
+                  style={{
+                    color: "#687076",
+                    textDecorationLine: "underline",
+                    lineHeight: 20,
+                  }}
+                >
+                  {selectedJob?.location}
+                </ThemedText>
+              </Pressable>
             </ThemedView>
           </ThemedView>
         </ThemedView>

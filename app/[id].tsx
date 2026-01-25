@@ -2,6 +2,7 @@
 import { mockEmployeeData } from "@/libs/utils/get-datas";
 import { getJobLevelMN } from "@/libs/utils/get-job-level-mn";
 import { getJobTypeMN } from "@/libs/utils/get-job-type-mn";
+import { openEmail } from "@/libs/utils/open-email";
 import { relationOptions } from "@/libs/utils/relation-options";
 import { statusOptions } from "@/libs/utils/status-options";
 import * as DocumentPicker from "expo-document-picker";
@@ -53,19 +54,6 @@ export default function ReferPerson() {
   const [modalRelationVisible, setModalRelationVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(500)).current;
   const router = useRouter();
-
-  const openEmail = async (email: string) => {
-    const gmailUrl = `googlegmail://co?to=${email}`;
-    const mailtoUrl = `mailto:${email}`;
-
-    const canOpenGmail = await Linking.canOpenURL(gmailUrl);
-
-    if (canOpenGmail) {
-      Linking.openURL(gmailUrl);
-    } else {
-      Linking.openURL(mailtoUrl);
-    }
-  };
 
   useEffect(() => {
     if (modalCurrentStatusVisible) {
