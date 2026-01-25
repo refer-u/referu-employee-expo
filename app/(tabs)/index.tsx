@@ -98,16 +98,6 @@ export default function HomeScreen() {
             </Link>
           </ThemedView>
         ))}
-
-        {/* <ThemedView style={styles.stepContainer}>
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>
-        </ThemedView> */}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -122,12 +112,10 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     padding: 18,
     backgroundColor: "#fff",
-
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.08,
     shadowRadius: 10,
-
     elevation: 4,
   },
 });
