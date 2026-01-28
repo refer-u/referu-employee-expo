@@ -1,5 +1,3 @@
-import { StyleSheet } from "react-native";
-
 import { JobListIconAnime } from "@/components/job-list-anime";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
@@ -7,6 +5,8 @@ import { ThemedView } from "@/components/themed-view";
 import { formatDate } from "@/libs/utils/format-date";
 import { hrPostedJobs } from "@/libs/utils/get-datas";
 import { Link } from "expo-router";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { ReferUHeader } from "../_components/ReferUHeader";
 
 export default function HomeScreen() {

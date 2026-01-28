@@ -1,27 +1,37 @@
 import { ThemedText } from "@/components/themed-text";
+import { SignedIn, SignedOut } from "@clerk/clerk-expo";
+import { View } from "react-native";
+import UserButton from "./UserButton";
 
 export const ReferUHeader = () => {
   return (
-    <ThemedText
-      type="title"
+    <View
       style={{
-        color: "#fff",
+        position: "absolute",
         bottom: 0,
         height: 70,
-        position: "absolute",
+        width: "100%",
         paddingHorizontal: 26,
         paddingVertical: 22,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
-      Refer
-      <ThemedText
-        type="title"
-        style={{
-          color: "#94A3B8",
-        }}
-      >
-        U
+      <ThemedText type="title" style={{ color: "#fff" }}>
+        Refer
+        <ThemedText type="title" style={{ color: "#94A3B8" }}>
+          U
+        </ThemedText>
       </ThemedText>
-    </ThemedText>
+
+      {/* UserButton */}
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+
+      {/* Login */}
+      <SignedOut>{/* <Pressable><Text>Login</Text></Pressable> */}</SignedOut>
+    </View>
   );
 };
