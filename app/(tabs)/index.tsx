@@ -9,10 +9,13 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { ReferUHeader } from "../_components/ReferUHeader";
 import { useAllReferrals } from "../hook/use-all-referrals";
+import { useEmployeeData } from "../hook/use-employee-data";
 
 export default function HomeScreen() {
   const { allReferrals, loading } = useAllReferrals();
+  const { employeeData } = useEmployeeData();
   console.log({ allReferrals });
+  console.log({ employeeData });
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#005295", dark: "#1D3D47" }}
