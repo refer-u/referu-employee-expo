@@ -2,12 +2,15 @@
 import { mockEmployeeData } from "@/libs/utils/get-datas";
 import { getJobLevelMN } from "@/libs/utils/get-job-level-mn";
 import { getJobTypeMN } from "@/libs/utils/get-job-type-mn";
+import { relationMNtoEN } from "@/libs/utils/get-relation-en";
+import { statusMNtoEN } from "@/libs/utils/get-status-en";
 import { openEmail } from "@/libs/utils/open-email";
 import { relationOptions } from "@/libs/utils/relation-options";
 import { statusOptions } from "@/libs/utils/status-options";
+import { useAuth } from "@clerk/clerk-expo";
+import axios from "axios";
 import * as DocumentPicker from "expo-document-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
-
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -27,6 +30,8 @@ import {
 import "react-native-gesture-handler";
 import "react-native-reanimated";
 
+type FileType = { name: string; uri: string; type: string } | null;
+
 export default function ReferPerson() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [candidateLastName, setCandidateLastName] = useState<string>("");
@@ -38,10 +43,7 @@ export default function ReferPerson() {
     useState<string>("");
   const [candidateCurrentStatus, setCandidateCurrentStatus] =
     useState<string>("");
-  const [candidateResume, setCandidateResume] = useState<{
-    name: string;
-    uri: string;
-  } | null>(null);
+  const [candidateResume, setCandidateResume] = useState<FileType>(null);
   const [resumeFilePreview, setResumeFilePreview] = useState<string>("");
   const [hasCandidateConsent, setHasCandidateConsent] =
     useState<boolean>(false);
@@ -49,13 +51,13 @@ export default function ReferPerson() {
     useState<boolean>(false);
   const [relationWithCandidate, setRelationWithCandidate] = useState("");
   const [refferalReason, setRefferalReason] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [modalCurrentStatusVisible, setModalCurrentStatusVisible] =
     useState(false);
   const [modalRelationVisible, setModalRelationVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(500)).current;
   const router = useRouter();
-
-  console.log();
+  const { getToken } = useAuth();
 
   useEffect(() => {
     if (modalCurrentStatusVisible) {
@@ -65,7 +67,7 @@ export default function ReferPerson() {
         toValue: 0,
         duration: 500,
         easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
     }
   }, [modalCurrentStatusVisible]);
@@ -78,27 +80,104 @@ export default function ReferPerson() {
         toValue: 0,
         duration: 500,
         easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
     }
   }, [modalRelationVisible]);
 
   const pickResume = async () => {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: "application/pdf",
-      copyToCacheDirectory: true,
-    });
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "application/pdf",
+        copyToCacheDirectory: true,
+      });
 
-    if (!result.canceled) {
-      const file = result.assets[0];
-      setCandidateResume({ name: file.name, uri: file.uri });
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const file = result.assets[0];
+        setCandidateResume({
+          name: file.name,
+          uri: file.uri,
+          type: file.mimeType || "application/pdf",
+        });
+      } else {
+        console.log("Файл сонгогдоогүй эсвэл буруу формат байна", result);
+      }
+    } catch (err) {
+      console.log("Файл сонгох алдаа:", err);
     }
   };
 
-  const handleSendReferral = () => {
-    alert("working");
+  const handleSendReferral = async () => {
+    const token = await getToken();
+
+    if (!candidateEmail.trim()) return alert("Имэйл хаяг заавал бөглөнө үү");
+
+    if (!candidateResume) return alert("Анкетаа хавсаргана уу!");
+
+    if (!hasCandidateConsent) return alert("Зөвшөөрөл заавал байна!");
+
+    if (
+      !candidateLastName ||
+      !candidateFirstName ||
+      !candidateTelNumber ||
+      !candidateEmail ||
+      !candidateCurrentStatus ||
+      !isNotCurrentEmployee! ||
+      !relationWithCandidate ||
+      !refferalReason
+    )
+      return alert("Бүх талбарыг бөглөнө үү!");
+
+    const newFormData = new FormData();
+    newFormData.append("postedJobId", id);
+    newFormData.append("candidateLastName", candidateLastName);
+    newFormData.append("candidateFirstName", candidateFirstName);
+    newFormData.append("candidateTelNumber", candidateTelNumber);
+    newFormData.append("candidateEmail", candidateEmail);
+    newFormData.append("candidateLinkedinUrl", candidateLinkedinUrl);
+    newFormData.append("candidateFieldOfInterest", candidateFieldOfInterest);
+    newFormData.append(
+      "candidateCurrentStatus",
+      statusMNtoEN(candidateCurrentStatus),
+    );
+    if (candidateResume) {
+      let fileToUpload: Blob | any = candidateResume;
+
+      if (Platform.OS === "web") {
+        fileToUpload = await fetch(candidateResume.uri).then((r) => r.blob());
+      }
+      newFormData.append("candidateResume", fileToUpload, candidateResume.name);
+    }
+    newFormData.append("hasCandidateConsent", String(hasCandidateConsent));
+    newFormData.append("isNotCurrentEmployee", String(isNotCurrentEmployee));
+    newFormData.append(
+      "relationWithCandidate",
+      relationMNtoEN(relationWithCandidate),
+    );
+    newFormData.append("refferalReason", refferalReason);
+
+    try {
+      setLoading(true);
+      await axios.post("http://192.168.10.182:4000/referral", newFormData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("Амжилттай илгээгдлээ");
+      //  router.push("/");
+    } catch (err: any) {
+      console.log("Axios error:", err.response?.data || err.message);
+      alert("Алдаа гарлаа, консолийг шалгана уу");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  if (!id) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Ажлын байр мэдээлэл байхгүй байна</Text>
+      </View>
+    );
+  }
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: "#f0f6ff" }}
