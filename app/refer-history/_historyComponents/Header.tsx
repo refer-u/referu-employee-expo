@@ -24,9 +24,8 @@ const styles = StyleSheet.create({
     gap: 2,
     alignItems: "center",
     paddingHorizontal: 12,
-    paddingVertical: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb",
+    paddingTop: 8,
+    backgroundColor: "#f0f6ff",
   },
   backButton: {
     padding: 8,
