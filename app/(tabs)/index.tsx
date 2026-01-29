@@ -8,8 +8,11 @@ import { Link } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { ReferUHeader } from "../_components/ReferUHeader";
+import { useAllReferrals } from "../hook/use-all-referrals";
 
 export default function HomeScreen() {
+  const { allReferrals, loading } = useAllReferrals();
+  console.log({ allReferrals });
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#005295", dark: "#1D3D47" }}
