@@ -78,10 +78,9 @@ export type ReferralType = {
   candidateResume: string;
   hasCandidateConsent: boolean;
   isNotCurrentEmployee: boolean;
-  referralStatus: "SUBMITTED" | "APPROVED" | "REJECTED";
-  referralStatusUpdatedAt: string;
+  referralStatus: "SUBMITTED" | "BONUS100" | "BONUS200" | "REJECTED";
+  referralStatusUpdatedAt?: string;
   bonusAmount?: number;
-  bonusApprovedAt?: string;
   createdAt: string;
   updatedAt: string;
 };
