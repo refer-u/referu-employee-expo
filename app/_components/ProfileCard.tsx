@@ -1,23 +1,12 @@
+import { getJobLevelMN } from "@/libs/utils/get-job-level-mn";
 import { Briefcase, Mail, User } from "lucide-react-native";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useEmployeeData } from "../hook/use-employee-data";
 
-type Employee = {
-  _id: string;
-  employeeClerkId: string;
-  employeeFirstName: string;
-  employeeLastName: string;
-  employeeDepartment: string;
-  employeeJobTitle: string;
-  employeeJobLevel: string;
-  employeeEmail: string;
-};
+export const ProfileCard = () => {
+  const { employeeData } = useEmployeeData();
 
-type ProfileCardProps = {
-  employee: Employee;
-};
-
-export const ProfileCard = ({ employee }: ProfileCardProps) => {
   return (
     <View style={styles.card}>
       <View style={styles.content}>
@@ -33,23 +22,29 @@ export const ProfileCard = ({ employee }: ProfileCardProps) => {
         <View style={styles.info}>
           <View style={styles.headerRow}>
             <Text style={styles.name}>
-              {employee.employeeLastName.charAt(0)}.{" "}
-              {employee.employeeFirstName}
+              {employeeData?.employeeLastName.charAt(0)}.{" "}
+              {employeeData?.employeeFirstName}
             </Text>
             <View style={styles.levelBadge}>
-              <Text style={styles.levelText}>{employee.employeeJobLevel}</Text>
+              {employeeData?.employeeJobLevel && (
+                <Text style={styles.levelText}>
+                  {getJobLevelMN(employeeData.employeeJobLevel)}
+                </Text>
+              )}
             </View>
           </View>
 
           <View style={styles.meta}>
             <View style={styles.metaRow}>
               <Briefcase size={14} color="#64748b" />
-              <Text style={styles.metaText}>{employee.employeeJobTitle}</Text>
+              <Text style={styles.metaText}>
+                {employeeData?.employeeJobTitle}
+              </Text>
             </View>
 
             <View style={styles.metaRow}>
               <Mail size={14} color="#94a3b8" />
-              <Text style={styles.email}>{employee.employeeEmail}</Text>
+              <Text style={styles.email}>{employeeData?.employeeEmail}</Text>
             </View>
           </View>
         </View>
@@ -57,7 +52,9 @@ export const ProfileCard = ({ employee }: ProfileCardProps) => {
 
       {/* Department */}
       <View style={styles.department}>
-        <Text style={styles.departmentText}>{employee.employeeDepartment}</Text>
+        <Text style={styles.departmentText}>
+          {employeeData?.employeeDepartment}
+        </Text>
       </View>
     </View>
   );

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
   },
   text: {
-    fontSize: 11,
+    fontSize: 9,
     color: "#374151",
   },
   Зөвшөөрсөн: {
