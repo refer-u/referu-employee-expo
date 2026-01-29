@@ -55,6 +55,8 @@ export default function ReferPerson() {
   const slideAnim = useRef(new Animated.Value(500)).current;
   const router = useRouter();
 
+  console.log();
+
   useEffect(() => {
     if (modalCurrentStatusVisible) {
       slideAnim.setValue(300);
