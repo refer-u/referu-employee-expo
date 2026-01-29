@@ -4,7 +4,6 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import Header from "../_components/Header";
 import MenuItem from "../_components/MenuItem";
-import { mockEmployee } from "../_components/mockEmployee";
 import { ProfileCard } from "../_components/ProfileCard";
 import { ReferUHeader } from "../_components/ReferUHeader";
 
@@ -19,9 +18,7 @@ export default function MySection() {
         <View style={styles.container}>
           <Header />
           <View style={styles.content}>
-            {mockEmployee.map((emp) => (
-              <ProfileCard key={emp._id} employee={emp} />
-            ))}
+            <ProfileCard />
             <MenuItem />
           </View>
         </View>
@@ -37,7 +34,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 26,
-    paddingVertical: 30,
+    paddingVertical: 12,
     gap: 16,
   },
 });

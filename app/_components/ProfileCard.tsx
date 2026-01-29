@@ -25,13 +25,6 @@ export const ProfileCard = () => {
               {employeeData?.employeeLastName.charAt(0)}.{" "}
               {employeeData?.employeeFirstName}
             </Text>
-            <View style={styles.levelBadge}>
-              {employeeData?.employeeJobLevel && (
-                <Text style={styles.levelText}>
-                  {getJobLevelMN(employeeData.employeeJobLevel)}
-                </Text>
-              )}
-            </View>
           </View>
 
           <View style={styles.meta}>
@@ -55,6 +48,13 @@ export const ProfileCard = () => {
         <Text style={styles.departmentText}>
           {employeeData?.employeeDepartment}
         </Text>
+        <View style={styles.levelBadge}>
+          {employeeData?.employeeJobLevel && (
+            <Text style={styles.levelText}>
+              {getJobLevelMN(employeeData.employeeJobLevel)}
+            </Text>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -143,7 +143,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#e3e6e8ff",
     paddingTop: 8,
+    flexDirection: "row",
     borderStyle: "dotted",
+    justifyContent: "space-between",
     paddingHorizontal: 8,
   },
   departmentText: {

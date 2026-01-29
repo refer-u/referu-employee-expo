@@ -1,5 +1,6 @@
 import { useAllReferrals } from "@/app/hook/use-all-referrals";
-import { formatDate } from "@/libs/utils/format-date";
+
+import { getDateWithoutTime } from "@/libs/utils/getDateWithoutTime";
 import * as NavigationBar from "expo-navigation-bar";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -47,11 +48,12 @@ export default function TabsPage() {
               <CardItem key={i._id} dotColor="#fb923c">
                 {/* <Text style={styles.title}>{i.jobName}</Text> */}
                 <Text style={styles.muted}>
-                  Санал болгосон: {i.candidateFirstName}
+                  Санал болгосон:{" "}
+                  <Text style={styles.boldText}>{i.candidateFirstName}</Text>
                 </Text>
                 <View style={styles.badges}>
                   <Badge
-                    text={`Илгээсэн: ${formatDate(i.createdAt)}`}
+                    text={`Илгээсэн: ${getDateWithoutTime(i.createdAt)}`}
                     variant="Илгээсэн"
                   />
                 </View>
@@ -75,7 +77,8 @@ export default function TabsPage() {
                   }}
                 >
                   <Text style={styles.muted}>
-                    Санал болгосон: {i.candidateFirstName}
+                    Санал болгосон:{" "}
+                    <Text style={styles.boldText}>{i.candidateFirstName}</Text>
                   </Text>
 
                   <Text style={styles.bonus}>{i.bonusAmount}₮</Text>
@@ -83,12 +86,12 @@ export default function TabsPage() {
 
                 <View style={styles.badges}>
                   <Badge
-                    text={`Илгээсэн: ${formatDate(i.createdAt)}`}
+                    text={`Илгээсэн: ${getDateWithoutTime(i.createdAt)}`}
                     variant="Илгээсэн"
                   />
 
                   <Badge
-                    text={`Зөвшөөрсөн: ${formatDate(i.updatedAt)}`}
+                    text={`Зөвшөөрсөн: ${getDateWithoutTime(i.updatedAt)}`}
                     variant="Зөвшөөрсөн"
                   />
                 </View>
@@ -103,15 +106,17 @@ export default function TabsPage() {
               <CardItem key={i._id} dotColor="#ef4444">
                 {/* <Text style={styles.title}>{i.jobName}</Text> */}
                 <Text style={styles.muted}>
-                  Санал болгосон: {i.candidateFirstName}
+                  Санал болгосон:{" "}
+                  <Text style={styles.boldText}>{i.candidateFirstName}</Text>
                 </Text>
+
                 <View style={styles.badges}>
                   <Badge
-                    text={`Илгээсэн: ${formatDate(i.createdAt)}`}
+                    text={`Илгээсэн: ${getDateWithoutTime(i.createdAt)}`}
                     variant="Илгээсэн"
                   />
                   <Badge
-                    text={`Цуцлагдсан: ${formatDate(i.updatedAt)}`}
+                    text={`Цуцлагдсан: ${getDateWithoutTime(i.updatedAt)}`}
                     variant="Цуцлагдсан"
                   />
                 </View>
@@ -123,20 +128,24 @@ export default function TabsPage() {
 }
 
 const styles = StyleSheet.create({
+  boldText: {
+    color: "#111827",
+    fontWeight: "500",
+  },
   container: {
     flex: 1,
     backgroundColor: "#f0f6ff",
     paddingHorizontal: 9,
-    paddingTop: 25,
+    paddingTop: 18,
   },
   tabs: {
     flexDirection: "row",
     borderRadius: 10,
   },
 
-  bonus: { fontSize: 14, fontWeight: "600", color: "#22c55e" },
+  bonus: { fontSize: 14, fontWeight: "600", color: "#2dca67ff" },
   content: { padding: 16, gap: 12 },
   title: { fontSize: 18, fontWeight: "600", color: "#111827" },
-  muted: { fontSize: 13, color: "#6b7280", marginTop: 2 },
+  muted: { fontSize: 16, color: "#363739ff", marginTop: 2 },
   badges: { flexDirection: "row", gap: 6, marginTop: 8, flexWrap: "wrap" },
 });
