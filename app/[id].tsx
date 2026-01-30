@@ -34,10 +34,11 @@ type FileType = { name: string; uri: string; type: string } | null;
 
 export default function ReferPerson() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [candidateLastName, setCandidateLastName] = useState<string>("");
-  const [candidateFirstName, setCandidateFirstName] = useState<string>("");
-  const [candidateTelNumber, setCandidateTelNumber] = useState<string>("");
-  const [candidateEmail, setCandidateEmail] = useState<string>("");
+  const [candidateLastName, setCandidateLastName] = useState<string>("Бат");
+  const [candidateFirstName, setCandidateFirstName] = useState<string>("Болд");
+  const [candidateTelNumber, setCandidateTelNumber] =
+    useState<string>("90909090");
+  const [candidateEmail, setCandidateEmail] = useState<string>("bat@gmail.com");
   const [candidateLinkedinUrl, setCandidateLinkedinUrl] = useState<string>("");
   const [candidateFieldOfInterest, setCandidateFieldOfInterest] =
     useState<string>("");
@@ -50,7 +51,9 @@ export default function ReferPerson() {
   const [isNotCurrentEmployee, setIsNotCurrentEmployee] =
     useState<boolean>(false);
   const [relationWithCandidate, setRelationWithCandidate] = useState("");
-  const [refferalReason, setRefferalReason] = useState("");
+  const [refferalReason, setRefferalReason] = useState(
+    "Туршлагатай хүн, сайн ажиллана",
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [modalCurrentStatusVisible, setModalCurrentStatusVisible] =
     useState(false);
