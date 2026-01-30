@@ -158,11 +158,11 @@ export default function ReferPerson() {
 
     try {
       setLoading(true);
-      await axios.post("http://192.168.10.182:4000/referral", newFormData, {
+      await axios.post("http://192.168.10.65:4000/referral", newFormData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Амжилттай илгээгдлээ");
-      //  router.push("/");
+      router.push("/");
     } catch (err: any) {
       console.log("Axios error:", err.response?.data || err.message);
       alert("Алдаа гарлаа, консолийг шалгана уу");

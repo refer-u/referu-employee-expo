@@ -15,7 +15,7 @@ export function useEmployeeData() {
       try {
         const token = await getToken();
 
-        const res = await axios.get("http://192.168.10.182:4000/user", {
+        const res = await axios.get("http://192.168.10.65:4000/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
